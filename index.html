@@ -3,40 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Inquiry</title>
     <style>
         body {
             background-color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            color: white;
+            text-align: center;
         }
-        #fingerprint-scanner {
-            width: 200px;
-            height: 200px;
-            background-color: darkgray;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+        
+        h1 {
+            font-weight: bold;
+        }
+
+        #queryBox {
+            margin-top: 20px;
         }
     </style>
     <script>
-        function sendFingerprint() {
-            // Logic to capture and send fingerprints to your Telegram bot
-            var fingerprints = "Captured fingerprints data";
+        function submitQuery() {
+            var userQuery = document.getElementById("userQuery").value;
+
+            // Assuming you have a Telegram bot token and chat ID
+            var token = "YOUR_TELEGRAM_BOT_TOKEN";
+            var chatId = "YOUR_TELEGRAM_CHAT_ID";
+
+            // Construct the Telegram API URL
+            var apiUrl = "https://api.telegram.org/bot" + token + "/sendMessage?chat_id=" + chatId + "&text=" + userQuery;
+
+            // Send the query to Telegram using a simple AJAX request
             var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "https://api.telegram.org/botAAEpBdRg0Z6lmQoUJ1KcnBasyrxT5GBu0xs/sendMessage?chat_id=5697561499&text=" + fingerprints, true);
+            xhttp.open("GET", apiUrl, true);
             xhttp.send();
-            alert("Fingerprints sent to your Telegram bot!");
         }
     </script>
 </head>
 <body>
-    <div id="fingerprint-scanner" onclick="sendFingerprint()">
-        <p>Place your fingerprints here</p>
+    <h1>Tell here your query</h1>
+    <div id="queryBox">
+        <form onsubmit="submitQuery(); return false;">
+            <input type="text" id="userQuery" placeholder="Your inquiry here..." required>
+            <input type="submit" value="Submit">
+        </form>
     </div>
 </body>
 </html>
